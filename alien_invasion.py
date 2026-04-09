@@ -1,6 +1,7 @@
 import sys
 import pygame
 from settings import Settings
+from ship import Ship
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -31,6 +32,9 @@ class AlienInvasion:
 
         self.clock = pygame.time.Clock()
 
+        # Create an instance of the Ship class and store it in the ship attribute.
+        self.ship = Ship(self)
+
     def run_game(self):
         #Game loop
         while self.running:
@@ -43,6 +47,8 @@ class AlienInvasion:
             
             # Draw the background image to the screen.
             self.screen.blit(self.bg_image, (0, 0))
+            # Draw the ship to the screen.
+            self.ship.draw()
             # Redraw the screen during each pass through the loop.
             pygame.display.flip()
             # Limit the frame rate to the value specified in settings.
