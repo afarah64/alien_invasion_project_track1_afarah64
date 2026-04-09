@@ -40,6 +40,8 @@ class AlienInvasion:
         while self.running:
             # Watch for keyboard and mouse events.
             self._check_events()
+            # Update the ship's position based on the movement flags.
+            self.ship.update()
             # Update the screen during each pass through the loop.
             self._update_screen()
             # Limit the frame rate to the value specified in settings.
@@ -60,6 +62,28 @@ class AlienInvasion:
                 self.running = False
                 pygame.quit()
                 sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                self._check_keydown_events(event)
+            elif event.type == pygame.KEYUP:
+                self._check_keyup_events(event)
+
+    def _check_keyup_events(self, event: pygame.event.Event):
+        """Respond to key releases."""
+        if event.key == pygame.K_RIGHT:
+            self.ship.moving_right = False
+        elif event.key == pygame.K_LEFT:
+            self.ship.moving_left = False
+
+    def _check_keydown_events(self, event: pygame.event.Event):
+        """Respond to keypresses."""
+        if event.key == pygame.K_RIGHT:
+            self.ship.moving_right = True
+        elif event.key == pygame.K_LEFT:
+            self.ship.moving_left = True
+        elif event.key == pygame.K_q:
+            self.running = False
+            pygame.quit()
+            sys.exit()
 
 if __name__ == '__main__':
     ai = AlienInvasion()
