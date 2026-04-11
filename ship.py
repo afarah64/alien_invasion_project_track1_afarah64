@@ -20,24 +20,28 @@ class Ship:
         self.image = pygame.transform.scale(self.image, 
                 (self.settings.ship_width, self.settings.ship_height)
                 )
+        # Rotate the ship image 90 degrees counterclockwise to point it upwards.
+        self.image = pygame.transform.rotate(self.image, -90)
+
         # Get the rect of the ship image and the screen.
         self.rect = self.image.get_rect()
         self.boundaries = game.screen.get_rect()
 
         # Start each new ship at the bottom center of the screen.
-        self.rect.midbottom = self.boundaries.midbottom
+        self.rect.midleft = self.boundaries.midleft
 
-        self.moving_right = False
-        self.moving_left = False
-
-        # Store a decimal value for the ship's horizontal position.
-        self.x = float(self.rect.x)
+        #moving flags for Up and Down directions
+        self.moving_up = False
+        self.moving_down = False
+        
+        # Store the ship's vertical position as a decimal value.
+        self.y = float(self.rect.y)
 
         # Store a reference to the arsenal instance.    
         self.arsenal = arsenal
 
     def update(self):
-        """Update the ship's position based on the movement flags."""
+        """ Update the ship's position and update the arsenal."""
         self._update_ship_movement()
         self.arsenal.update_arsenal()
 
@@ -45,14 +49,15 @@ class Ship:
         """Update the ship's position based on the movement flags."""
           
         temp_speed = self.settings.ship_speed
-        #check if ship is moving right and if it is within the right boundary
-        if self.moving_right and self.rect.right < self.boundaries.right:
-            self.x += temp_speed
-        #check if ship is moving left and if it is within the left boundary    
-        if self.moving_left and self.rect.left > self.boundaries.left:
-            self.x -= temp_speed
+        # Moving Up wards (Y decreases) and check if it is within the top boundary
+        if self.moving_up and self.rect.top > 0:
+            self.y -= temp_speed
+        
+        #Moving Downwards (Y increases) and check if it is within the bottom boundary    
+        if self.moving_down and self.rect.bottom < self.boundaries.bottom:
+            self.y += temp_speed
         # Update rect object from self.x.
-        self.rect.x = int(self.x)
+        self.rect.y = int(self.y)
 
 
     def draw(self):

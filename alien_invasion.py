@@ -1,5 +1,13 @@
+"""
+    Alien Invasion - A simple 2D space shooter game. 
+    The player controls a spaceship to shoot down incoming aliens.
+    Author: Abdalla Farah
+    Date: 04/10/2026
+
+"""
+
 import sys
-import pygame
+import pygame 
 from settings import Settings
 from ship import Ship
 from arsenal import Arsenal
@@ -37,7 +45,7 @@ class AlienInvasion:
         pygame.mixer.init()
         self.laser_sound = pygame.mixer.Sound(str(self.settings.laser_sound))
         self.laser_sound.set_volume(0.7)
-
+ 
 
         # Create an instance of the Ship class and store it in the ship attribute.
         self.ship = Ship(self, Arsenal(self))
@@ -79,18 +87,19 @@ class AlienInvasion:
 
     def _check_keyup_events(self, event: pygame.event.Event):
         """Respond to key releases."""
-        if event.key == pygame.K_RIGHT:
-            self.ship.moving_right = False
-        elif event.key == pygame.K_LEFT:
-            self.ship.moving_left = False
+        if event.key == pygame.K_UP:
+            self.ship.moving_up = False
+        elif event.key == pygame.K_DOWN:
+            self.ship.moving_down = False
 
     def _check_keydown_events(self, event: pygame.event.Event):
         """Respond to keypresses."""
-        #checks for right and left arrow keys to set the ship's movement flags accordingly
-        if event.key == pygame.K_RIGHT:
-            self.ship.moving_right = True
-        elif event.key == pygame.K_LEFT:
-            self.ship.moving_left = True
+        # check if key is pressed then move the ship in the corresponding direction and check if it is within the boundary
+        if event.key == pygame.K_UP:
+            self.ship.moving_up = True
+        #check if key is pressed then move the ship in the corresponding direction and check if it is within the boundary
+        elif event.key == pygame.K_DOWN:
+            self.ship.moving_down = True
         # checking for spacebar to fire a bullet, and giving it a sound effect when fired
         elif event.key == pygame.K_SPACE:
             if self.ship.fire():

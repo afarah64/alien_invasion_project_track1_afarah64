@@ -22,7 +22,7 @@ class Arsenal:
     def remove_bullets_offscreen(self):
         """Remove bullets that have disappeared off the top of the screen."""
         for bullet in self.arsenal.copy():
-            if bullet.rect.bottom <= 0:
+            if bullet.rect.left >= self.game.settings.screen_width:
                 self.arsenal.remove(bullet)
 
     def draw(self):
