@@ -23,18 +23,25 @@ class Alien(Sprite):
         self.image = pygame.transform.scale(self.image, 
             (self.settings.alien_width, self.settings.alien_height)
             )
+        # rotate the image 
         self.image = pygame.transform.rotate(self.image, -90)
 
-        # Get the rect of the image and set its initial position based on the x and y parameters.
+        # Get the rect of the image
         self.rect = self.image.get_rect()
+        # Set the position of the alien
         self.rect.x = x
         self.rect.y = y
         
-        
-        #self.y = float(self.rect.y)
+        #store vertical and horizontal position as float for movement
+        self.y = float(self.rect.y)
+        self.x = float(self.rect.x)
 
     def update(self):
-        pass
+        """Move the alien"""
+        self.y += self.settings.fleet_speed
+        
+        self.rect.y = int(self.y)
+
 
     def draw_alien(self):
         """Draw the alien to the screen."""
