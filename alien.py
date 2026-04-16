@@ -38,9 +38,15 @@ class Alien(Sprite):
 
     def update(self):
         """Move the alien"""
-        self.y += self.settings.fleet_speed
+        if self.check_edges():
+            self.settings.fleet_speed *= -1
+        
+        self.y += self.settings.fleet_speed * self.settings.fleet_direction
         
         self.rect.y = int(self.y)
+
+    def check_edges(self):
+        return (self.rect.bottom >= self.boundaries.bottom or self.rect.top <= self.boundaries.top)
 
 
     def draw_alien(self):
