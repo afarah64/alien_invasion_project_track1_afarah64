@@ -40,10 +40,13 @@ class Alien(Sprite):
         """Move the alien"""
         if self.check_edges():
             self.settings.fleet_speed *= -1
+            self.x -= self.settings.fleet_right_speed
         
         self.y += self.settings.fleet_speed * self.settings.fleet_direction
         
         self.rect.y = int(self.y)
+        self.rect.x = int(self.x)
+
 
     def check_edges(self):
         return (self.rect.bottom >= self.boundaries.bottom or self.rect.top <= self.boundaries.top)

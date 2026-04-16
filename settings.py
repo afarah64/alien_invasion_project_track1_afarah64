@@ -40,5 +40,4 @@ class Settings:
 
         self.fleet_speed = 2
         self.fleet_direction = 1        
-        
-        
+        self.fleet_right_speed = 40
