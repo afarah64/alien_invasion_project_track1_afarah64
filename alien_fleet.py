@@ -105,7 +105,7 @@ class AlienFleet:
     def check_collisions(self, other_group):
         return pygame.sprite.groupcollide(self.fleet, other_group, True, True)
     
-    def chech_fleet_left_edges(self):
+    def check_fleet_left_edges(self):
         alien = 'Alien'
         for alien in self.fleet:  
             if alien.rect.left <= 0:

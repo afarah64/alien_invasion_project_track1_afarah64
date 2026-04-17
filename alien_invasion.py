@@ -1,20 +1,19 @@
 """
-    Alien Invasion - A simple 2D space shooter game. 
+    This main module for the game Alien Invasion - A simple 2D space shooter game. 
     The player controls a spaceship to shoot down incoming aliens.
     Author: Abdalla Farah
-    Date: 04/10/2026
+    Date: 04/17/2026
 
 """
-
 import sys
 import pygame 
 from settings import Settings
+from game_stats import GameStats
 from ship import Ship
 from arsenal import Arsenal
 #from alien import Alien
 from alien_fleet import AlienFleet
-
-
+from time import sleep
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -26,6 +25,7 @@ class AlienInvasion:
 
         # Create an instance of the Settings class and store it in the settings attribute.
         self.settings = Settings()
+        self.game_stats = GameStats(self.settings.starting_ship_count)
         
         # Set up the display window and caption.
         self.screen = pygame.display.set_mode(
@@ -61,16 +61,19 @@ class AlienInvasion:
         self.alien_fleet = AlienFleet(self)
         self.alien_fleet.create_fleet()
 
+        self.game_active = True
+
         
     def run_game(self):
         #Game loop
         while self.running:
             # Watch for keyboard and mouse events.
             self._check_events()
-            # Update the ship's position based on the movement flags.
-            self.ship.update()
-            self.alien_fleet.update_fleet()
-            self._check_collisions()
+            if self.game_active:
+                # Update the ship's position based on the movement flags.
+                self.ship.update()
+                self.alien_fleet.update_fleet()
+                self._check_collisions()
             # Update the screen during each pass through the loop.
             self._update_screen()
             # Limit the frame rate to the value specified in settings.
@@ -78,7 +81,10 @@ class AlienInvasion:
     
     def _check_collisions(self):
         if  self.ship.check_collisions(self.alien_fleet.fleet):
-            self._reset_level()
+            self._check_game_status()
+        
+        if self.alien_fleet.check_fleet_left_edges():
+            self._check_game_status()
 
         collisions= self.alien_fleet.check_collisions(self.ship.arsenal.arsenal)
         if collisions:
@@ -87,7 +93,16 @@ class AlienInvasion:
 
         if self.alien_fleet.check_destroyed_status():
             self._reset_level() 
-        
+    
+    def _check_game_status(self):
+        if self.game_stats.ships_left > 0:
+            self.game_stats.ships_left -= 1
+            self._reset_level()
+            sleep(0.5)
+        else:       
+            self.game_active = False
+
+
 
     def _reset_level(self):
         self.ship.arsenal.arsenal.empty()
