@@ -1,3 +1,7 @@
+"""Define the ship class for the player-controlled spacecraft.
+The ship moves vertically along the left side of the screen and
+can fire bullets to destroy aliens.
+"""
 import pygame
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -6,10 +10,16 @@ if TYPE_CHECKING:
 
 
 class Ship:
-    """A class to manage the ship."""
+    """Manage the player-controlled ship
+    """
 
     def __init__(self, game: 'AlienInvasion', arsenal: 'Arsenal') -> None:
-        """Initialize the ship and set its starting position."""
+        """Initialize the ship and its starting position
+
+        Args:
+            game (AlienInvasion): The main game instance
+            arsenal (Arsenal): The ship's bullet manager.
+        """
         self.game = game
         self.settings = game.settings
         self.screen = game.screen
@@ -41,7 +51,7 @@ class Ship:
         self.arsenal = arsenal
     
     def _midleft_ship(self):
-        """Center the ship on the screen."""
+        """Position the ship at the middle-left of the screen."""
         self.rect.midleft = self.boundaries.midleft
         self.y = float(self.rect.y)
 
@@ -51,7 +61,7 @@ class Ship:
         self.arsenal.update_arsenal()
 
     def _update_ship_movement(self):
-        """Update the ship's position based on the movement flags."""
+        """Update the ship's vertical position based on the movement flags."""
           
         temp_speed = self.settings.ship_speed
         # Moving Up wards (Y decreases) and check if it is within the top boundary
@@ -66,15 +76,27 @@ class Ship:
 
 
     def draw(self):
-        """Draw the ship at its current location."""
+        """Draw the ship and its bullets to the screen."""
         self.arsenal.draw()
         self.screen.blit(self.image, self.rect) 
     
     def fire(self):
-        """Fire a bullet if limit not reached yet."""
+        """Fire a bullet if the limit has not been reached
+
+        Returns:
+            bool: True if a bullet was fired, False otherwise.
+        """
         return self.arsenal.fire_bullet()
     
     def check_collisions(self, other_group):
+        """Check for collision with another sprite group
+
+        Args:
+            other_group (pygame.sprite.Group): _description_
+
+        Returns:
+            bool: True if a collision occurs, False otherwise.
+        """
         if pygame.sprite.spritecollideany(self, other_group):
             self._midleft_ship()
             return True

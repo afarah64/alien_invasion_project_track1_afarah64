@@ -1,3 +1,7 @@
+"""Define the Bullet class used in the Alien invasion game.
+Bullets are fired from ship and travel horizontally across 
+the screen to hit aliens.
+"""
 import pygame
 from pygame.sprite import Sprite
 
@@ -6,10 +10,15 @@ if TYPE_CHECKING:
     from alien_invasion import AlienInvasion
 
 class Bullet(Sprite):
-    """A class to manage bullets fired from the ship."""
+    """Represents a bullet fired from the ship."""
     
     def __init__(self, game: 'AlienInvasion') -> None:
-        """Initialize a bullet object at the ship's current position."""
+        """Initialize a bullet at the ship's current position.
+
+        Args:
+            game (AlienInvasion): The main game instance.
+        """
+        
         super().__init__()
         
         # store a reference to the game instance and its settings and screen attributes
@@ -32,14 +41,14 @@ class Bullet(Sprite):
         self.x = float(self.rect.x)
 
     def update(self):
-        """Move the bullet up the screen."""
+        """Move the bullet horizontally across the screen."""
         # Move the bullet horizontally.
         self.x += self.settings.bullet_speed
         # Update the rect position.
         self.rect.x = int(self.x)
 
     def draw_bullet(self):
-        """Draw the bullet to the screen."""
+        """Draw the bullet at its current position."""
         self.screen.blit(self.image, self.rect)
         
 

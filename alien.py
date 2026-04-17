@@ -6,7 +6,10 @@ if TYPE_CHECKING:
     from alien_fleet import AlienFleet
 
 class Alien(Sprite):
-    """A class to represent a single alien in the fleet."""
+    """Defines the Alien class used in the Alien Invasion game.
+    Each alien is a sprite that moves horizontally and interacts 
+    with screen boundaries.
+    """
 
     def __init__(self, fleet: 'AlienFleet', x: float, y: float) -> None:
         """Initialize the alien at a specific position."""
@@ -39,7 +42,9 @@ class Alien(Sprite):
         self.x = float(self.rect.x)
 
     def update(self):
-        """Move the alien up and down based on directions"""
+        """Update the alien's position.
+        Moves the alien top and bottom depending on the fleet direction.
+        """
         temp_speed = self.settings.fleet_speed
 
         self.y += temp_speed * self.fleet.fleet_direction
@@ -49,10 +54,16 @@ class Alien(Sprite):
 
 
     def check_edges(self):
+        """Check whether the alien has reached screen edge.
+
+        Returns:
+            _bool_: True if the alien touches the top or bottom edge.
+        """
         return (self.rect.bottom >= self.boundaries.bottom or self.rect.top <= 0)
 
 
     def draw_alien(self):
-        """Draw the alien to the screen."""
+        """Draw the alien to the screen.
+        """
         self.screen.blit(self.image, self.rect)
         

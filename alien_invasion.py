@@ -16,7 +16,10 @@ from alien_fleet import AlienFleet
 from time import sleep
 
 class AlienInvasion:
-    """Overall class to manage game assets and behavior."""
+    """Overall class to manage game assets and behavior.
+    this module initializes the game, manages the main game loop, handluser input
+    and updates game state and renders all objects on the screen.
+    """
 
     def __init__(self) -> None:
         """Initialize the game, and create game resources."""
@@ -65,7 +68,10 @@ class AlienInvasion:
 
         
     def run_game(self):
-        #Game loop
+        """Start and manage the main game loop.
+        Continuesly processes user input, update game objects,
+        Check for collisions, and refreshes the display until the game is exited.
+        """
         while self.running:
             # Watch for keyboard and mouse events.
             self._check_events()
@@ -80,6 +86,13 @@ class AlienInvasion:
             self.clock.tick(self.settings.FPS)
     
     def _check_collisions(self):
+        """Handle all collision detection in the game
+        Checks the following:
+            - Ship collisions with aliens
+            - Aliens reaching the left edge of the screen
+            - Bullet and alien collisions
+            - Aliens being destroyed
+        """
         if  self.ship.check_collisions(self.alien_fleet.fleet):
             self._check_game_status()
         
@@ -95,6 +108,10 @@ class AlienInvasion:
             self._reset_level() 
     
     def _check_game_status(self):
+        """update game status based on remaining lives
+        Decreases ship count when a collision occurs
+        Ends the game if no ships remain
+        """
         if self.game_stats.ships_left > 0:
             self.game_stats.ships_left -= 1
             self._reset_level()
@@ -105,6 +122,9 @@ class AlienInvasion:
 
 
     def _reset_level(self):
+        """Reset the current level state
+        Clears all bullets and aliens, then recreates the fleet.
+        """
         self.ship.arsenal.arsenal.empty()
         self.alien_fleet.fleet.empty()
         self.alien_fleet.create_fleet()

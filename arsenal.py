@@ -1,3 +1,7 @@
+"""Manages all bullets fired from the ship.
+This module defines the Arsenal class, which handles bullet creation,
+updating bullet positions, and removing bullets that leave the screen.
+"""
 import pygame
 from bullet import Bullet
 
@@ -7,31 +11,42 @@ if TYPE_CHECKING:
     
 
 class Arsenal:
-    """A class to manage the ship's arsenal."""
+    """Manages the collection of bullets fired from the ship.
+    """
     def __init__(self, game: 'AlienInvasion') -> None:
-        """Initialize the arsenal."""
+        """Initialize the arsenal
+
+        Args:
+            game (AlienInvasion): the main game instance.
+        """
         self.game = game
         self.settings = game.settings
         self.arsenal = pygame.sprite.Group()
 
     def update_arsenal(self):
-        """Update the positions of the bullets and get rid of old bullets."""
+        """Update all bullets and remove those that og off-screen.
+        """
         self.arsenal.update()
         self.remove_bullets_offscreen()
     
     def remove_bullets_offscreen(self):
-        """Remove bullets that have disappeared off the top of the screen."""
+        """Remove bullets that have moved beyond the right edge of the screen.
+        """
         for bullet in self.arsenal.copy():
             if bullet.rect.left >= self.game.settings.screen_width:
                 self.arsenal.remove(bullet)
 
     def draw(self):
-        """Draw the bullets to the screen."""
+        """Draw all bullets in the arsenal to the screen."""
         for bullet in self.arsenal:
             bullet.draw_bullet()
 
     def fire_bullet(self):
-        """Create a new bullet and add it to the arsenal."""
+        """Create and fire a new bullet if the limit is not exceeded
+
+        Returns:
+            bool: True if a bullet was created, False otherwise.
+        """
         if len(self.arsenal) < self.settings.bullets_amount:
             new_bullet = Bullet(self.game)  
             self.arsenal.add(new_bullet)
