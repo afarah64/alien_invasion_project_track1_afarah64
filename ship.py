@@ -27,8 +27,8 @@ class Ship:
         self.rect = self.image.get_rect()
         self.boundaries = game.screen.get_rect()
 
-        # Start each new ship at the bottom center of the screen.
-        self.rect.midleft = self.boundaries.midleft
+        self._midleft_ship()
+
 
         #moving flags for Up and Down directions
         self.moving_up = False
@@ -39,6 +39,11 @@ class Ship:
 
         # Store a reference to the arsenal instance.    
         self.arsenal = arsenal
+    
+    def _midleft_ship(self):
+        """Center the ship on the screen."""
+        self.rect.midleft = self.boundaries.midleft
+        self.y = float(self.rect.y)
 
     def update(self):
         """ Update the ship's position and update the arsenal."""
@@ -68,4 +73,11 @@ class Ship:
     def fire(self):
         """Fire a bullet if limit not reached yet."""
         return self.arsenal.fire_bullet()
+    
+    def check_collisions(self, other_group):
+        if pygame.sprite.spritecollideany(self, other_group):
+            self._midleft_ship()
+            return True
+        return False
+        
         
