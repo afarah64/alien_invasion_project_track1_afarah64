@@ -15,7 +15,7 @@ class AlienFleet:
         self.settings = game.settings
         self.fleet = pygame.sprite.Group()
         self.fleet_direction = self.settings.fleet_direction
-        self.fleet_right_speed = self.settings.fleet_right_speed  
+        self.fleet_shift_left_speed = self.settings.fleet_shift_left_speed  
 
         self.create_fleet()
 
@@ -76,6 +76,25 @@ class AlienFleet:
         new_alien = Alien(self, current_x, current_y)
         
         self.fleet.add(new_alien)
+
+    def check_fleet_edges(self):
+        """Respond appropriately if any aliens have reached an edge."""
+        for alien in self.fleet:
+            if alien.check_edges():
+                self._drop_alien_fleet()
+                self.fleet_direction *= -1
+                break
+
+    def _drop_alien_fleet(self):
+        """Drop the entire fleet and change the fleet's direction."""
+        for alien in self.fleet:
+            alien.x -= self.settings.fleet_shift_left_speed
+            alien.rect.x = int(alien.x)
+    
+    def update_fleet(self):
+        """Update the positions of all aliens in the fleet."""
+        self.check_fleet_edges()
+        self.fleet.update()
 
     def draw(self):
         """Draw the fleet of aliens to the screen."""

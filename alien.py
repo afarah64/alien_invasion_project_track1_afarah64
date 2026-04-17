@@ -12,6 +12,8 @@ class Alien(Sprite):
         """Initialize the alien at a specific position."""
         super().__init__()
         
+        self.fleet = fleet
+
         # store a reference to the game instance and its settings and screen attributes
         self.screen = fleet.game.screen
         #get the boundaries of the screen to ensure the alien stays within them
@@ -40,13 +42,7 @@ class Alien(Sprite):
         """Move the alien up and down based on directions"""
         temp_speed = self.settings.fleet_speed
 
-        if self.check_edges():
-            self.settings.fleet_direction *= -1
-            #shift left toward the ship
-            self.x -= self.settings.fleet_drop_speed
-        
-        self.y += temp_speed * self.settings.fleet_direction
-        
+        self.y += temp_speed * self.fleet.fleet_direction
         self.rect.y = int(self.y)
         self.rect.x = int(self.x)
         

@@ -66,8 +66,7 @@ class AlienInvasion:
             self._check_events()
             # Update the ship's position based on the movement flags.
             self.ship.update()
-            #self.alien.update()
-            #self.alien_fleet.fleet.update()
+            self.alien_fleet.update_fleet()
 
             # Update the screen during each pass through the loop.
             self._update_screen()
