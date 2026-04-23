@@ -29,6 +29,7 @@ class AlienInvasion:
 
         # Create an instance of the Settings class and store it in the settings attribute.
         self.settings = Settings()
+        self.settings.initialize_dynamic_settings()
         self.game_stats = GameStats(self.settings.starting_ship_count)
         
         # Set up the display window and caption.
@@ -155,7 +156,7 @@ class AlienInvasion:
         if not self.game_active:
             self.play_button.draw_button()
             pygame.mouse.set_visible(True)
-            
+
         # Redraw the screen during each pass through the loop.
         pygame.display.flip()
 
