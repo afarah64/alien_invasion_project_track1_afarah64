@@ -108,7 +108,9 @@ class AlienInvasion:
             self.impact_sound.fadeout(500)
 
         if self.alien_fleet.check_destroyed_status():
-            self._reset_level() 
+            self._reset_level()
+            self.settings.increase_difficulty() 
+            
     
     def _check_game_status(self):
         """update game status based on remaining lives
@@ -134,6 +136,7 @@ class AlienInvasion:
     
     def restart_game(self):
         # setting up dynamic Settings
+        self.settings.initialize_dynamic_settings()
         # reset Game stats
         #update HUD scrores
         #reset level
