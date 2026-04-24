@@ -116,7 +116,9 @@ class AlienInvasion:
             self._reset_level()
             self.settings.increase_difficulty()
             #update game stats level
-            self.game_stats.update_level() 
+            self.game_stats.update_level()
+            #update HUD level
+            self.hud.update_level()    
             
     
     def _check_game_status(self):
@@ -190,6 +192,8 @@ class AlienInvasion:
                 self._check_button_clicked()
 
     def _check_button_clicked(self):
+        """Check if the play button has been clicked, 
+        and if so, start a new game."""
         mouse_pos = pygame.mouse.get_pos()
         if self.play_button.check_clicked(mouse_pos):            
             self.restart_game()
